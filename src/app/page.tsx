@@ -7,7 +7,7 @@ import { TechConstellation } from "@/components/engineering/TechConstellation";
 import { AILab } from "@/components/engineering/AILab";
 import { ExperienceTimeline } from "@/components/journey/ExperienceTimeline";
 import { EducationArchive } from "@/components/journey/EducationArchive";
-import { AchievementBadges } from "@/components/journey/AchievementBadges";
+import { CertificateVault } from "@/components/journey/CertificateVault";
 import { GithubActivity } from "@/components/github/GithubActivity";
 import { ContactTerminal } from "@/components/contact/ContactTerminal";
 import { Footer } from "@/components/layout/Footer";
@@ -37,17 +37,17 @@ export default function Home() {
       {/* AI Engineering Lab */}
       <AILab />
 
-      {/* Engineering Journey (Experience, Education, Achievements) */}
+      {/* Engineering Journey (Experience, Education, Certificate Vault) */}
       <section id="journey" className="py-24 px-6 max-w-7xl mx-auto relative">
         <SectionHeader
           number="05"
           category="TIMELINE & MILESTONES"
           title="ENGINEERING JOURNEY"
-          subtitle="Work experience, academic qualifications, and verified achievements."
+          subtitle="Work experience, academic qualifications, and verified certificate credentials."
         />
         <ExperienceTimeline />
         <EducationArchive />
-        <AchievementBadges />
+        <CertificateVault />
       </section>
 
       {/* Live GitHub Engineering Activity */}
