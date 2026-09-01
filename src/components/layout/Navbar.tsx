@@ -13,7 +13,7 @@ export const NAV_ITEMS = [
   { name: "ENGINEERING", href: "#engineering" },
   { name: "AI LAB", href: "#ailab" },
   { name: "JOURNEY", href: "#journey" },
-  { name: "RESUME", href: "#resume" },
+  { name: "CERTIFICATIONS", href: "#vault" },
   { name: "CONTACT", href: "#contact" },
 ];
 
@@ -26,13 +26,13 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
-      // Simple active section detection
+      // Active section detection
       const sections = NAV_ITEMS.map((item) => item.href.substring(1));
       for (const section of sections.reverse()) {
         const el = document.getElementById(section);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 200) {
+          if (rect.top <= 250) {
             setActiveSection(section);
             break;
           }

@@ -8,13 +8,14 @@ import { AILab } from "@/components/engineering/AILab";
 import { ExperienceTimeline } from "@/components/journey/ExperienceTimeline";
 import { EducationArchive } from "@/components/journey/EducationArchive";
 import { CertificateVault } from "@/components/journey/CertificateVault";
-import { ResumeSection } from "@/components/resume/ResumeSection";
 import { GithubActivity } from "@/components/github/GithubActivity";
 import { ContactTerminal } from "@/components/contact/ContactTerminal";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SectionTransition } from "@/components/ui/SectionTransition";
+import { SectionProgress } from "@/components/ui/SectionProgress";
 
 export default function Home() {
   return (
@@ -23,23 +24,36 @@ export default function Home() {
       <CustomCursor />
       <Navbar />
 
+      {/* Floating Desktop Section Progress Bar */}
+      <SectionProgress />
+
       {/* Hero Section */}
-      <HeroSection />
+      <SectionTransition>
+        <HeroSection />
+      </SectionTransition>
 
       {/* System Profile (About) */}
-      <SystemProfile />
+      <SectionTransition>
+        <SystemProfile />
+      </SectionTransition>
 
       {/* Project Universe (Featured Case Studies & Experiments) */}
-      <ProjectUniverse />
+      <SectionTransition>
+        <ProjectUniverse />
+      </SectionTransition>
 
       {/* Engineering Stack */}
-      <TechConstellation />
+      <SectionTransition>
+        <TechConstellation />
+      </SectionTransition>
 
       {/* AI Engineering Lab */}
-      <AILab />
+      <SectionTransition>
+        <AILab />
+      </SectionTransition>
 
       {/* Engineering Journey (Experience, Education, Certificate Vault) */}
-      <section id="journey" className="py-24 px-6 max-w-7xl mx-auto relative">
+      <SectionTransition id="journey" className="py-24 px-6 max-w-7xl mx-auto">
         <SectionHeader
           number="05"
           category="TIMELINE & MILESTONES"
@@ -49,16 +63,17 @@ export default function Home() {
         <ExperienceTimeline />
         <EducationArchive />
         <CertificateVault />
-      </section>
-
-      {/* Engineering Resume Section */}
-      <ResumeSection />
+      </SectionTransition>
 
       {/* Live GitHub Engineering Activity */}
-      <GithubActivity />
+      <SectionTransition>
+        <GithubActivity />
+      </SectionTransition>
 
       {/* Contact Terminal */}
-      <ContactTerminal />
+      <SectionTransition>
+        <ContactTerminal />
+      </SectionTransition>
 
       {/* Footer */}
       <Footer />

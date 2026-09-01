@@ -15,9 +15,6 @@ import {
   Globe,
   GraduationCap,
   ExternalLink,
-  LayoutGrid,
-  GitCommit,
-  Calendar,
   Building,
   FileText,
   CheckCircle2
@@ -25,7 +22,6 @@ import {
 
 export const CertificateVault: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<CertificateCategory>("ALL");
-  const [viewMode, setViewMode] = useState<"GRID" | "TIMELINE">("GRID");
   const [activeCertificate, setActiveCertificate] = useState<Certificate | null>(null);
 
   const categories: CertificateCategory[] = [
@@ -44,33 +40,25 @@ export const CertificateVault: React.FC = () => {
     return CERTIFICATES_DATA.filter((c) => c.category === selectedCategory);
   }, [selectedCategory]);
 
-  const timelineYears = useMemo(() => {
-    const years = Array.from(new Set(filteredCertificates.map((c) => c.year))).sort((a, b) => b - a);
-    return years.map((yr) => ({
-      year: yr,
-      items: filteredCertificates.filter((c) => c.year === yr),
-    }));
-  }, [filteredCertificates]);
-
   const getBadgeIcon = (type: BadgeType) => {
     switch (type) {
       case "AWARD":
-        return <Trophy size={18} className="text-amber-400" />;
+        return <Trophy size={20} className="text-amber-400" />;
       case "COURSE":
       case "CERTIFICATION":
-        return <ShieldCheck size={18} className="text-blue-400" />;
+        return <ShieldCheck size={20} className="text-blue-400" />;
       case "HACKATHON":
-        return <Code2 size={18} className="text-cyan-400" />;
+        return <Code2 size={20} className="text-cyan-400" />;
       case "ORGANIZER":
-        return <Users size={18} className="text-emerald-400" />;
+        return <Users size={20} className="text-emerald-400" />;
       case "WORKSHOP":
-        return <Wrench size={18} className="text-violet-400" />;
+        return <Wrench size={20} className="text-violet-400" />;
       case "CONFERENCE":
-        return <Globe size={18} className="text-indigo-400" />;
+        return <Globe size={20} className="text-indigo-400" />;
       case "TECHNICAL PROGRAMME":
-        return <GraduationCap size={18} className="text-amber-300" />;
+        return <GraduationCap size={20} className="text-amber-300" />;
       default:
-        return <FileText size={18} className="text-zinc-400" />;
+        return <FileText size={20} className="text-zinc-400" />;
     }
   };
 
@@ -98,221 +86,135 @@ export const CertificateVault: React.FC = () => {
 
   return (
     <div id="vault" className="mt-20">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
-        <SectionHeader
-          number="04"
-          category="VERIFIED_CREDENTIALS // ARCHIVE"
-          title="CERTIFICATE VAULT"
-          subtitle="Certifications, hackathons, technical workshops, conferences and academic achievements collected throughout my engineering journey."
-        />
-      </div>
+      <SectionHeader
+        number="04"
+        category="CREDENTIAL_ARCHIVE // VERIFIED"
+        title="CERTIFICATE VAULT"
+        subtitle="Verified milestones from my engineering journey."
+      />
 
       {/* Dynamic Count Pill Banner */}
-      <div className="mb-8 flex items-center justify-between p-4 rounded-xl bg-blue-950/20 border border-blue-900/40 font-mono text-xs text-blue-300">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-blue-950/20 border border-blue-900/40 font-mono text-xs text-blue-300 max-w-5xl mx-auto">
         <div className="flex items-center gap-2">
-          <CheckCircle2 size={16} className="text-blue-400" />
+          <CheckCircle2 size={16} className="text-blue-400 shrink-0" />
           <span className="font-bold">{CERTIFICATES_DATA.length} VERIFIED CREDENTIAL RECORDS</span>
-          <span className="text-zinc-500 hidden sm:inline">— Direct document proof attached to every record</span>
+          <span className="text-zinc-500 hidden md:inline">— Official documents attached</span>
         </div>
-        <span className="text-zinc-500 text-[11px] hidden md:inline">SYSTEM ID: AKSHAY_S_VAULT_v2</span>
+        <span className="text-zinc-500 text-[11px]">CREDENTIAL ARCHIVE v3</span>
       </div>
 
-      {/* Filter Tabs & View Mode Switcher */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-10">
-        {/* Category Filters */}
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
-                selectedCategory === cat
-                  ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/25 font-bold"
-                  : "bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
-              }`}
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-xs mb-12 max-w-5xl mx-auto">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-3.5 py-1.5 rounded-lg border transition-all duration-300 cursor-pointer ${
+              selectedCategory === cat
+                ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/25 font-bold"
+                : "bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Sequence of Large Premium Animated Cards */}
+      <div className="max-w-5xl mx-auto space-y-6">
+        <AnimatePresence mode="popLayout">
+          {filteredCertificates.map((cert, index) => (
+            <motion.div
+              key={cert.id}
+              layout
+              initial={{ opacity: 0, y: 35, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.08,
+                ease: [0.65, 0, 0.35, 1] as const,
+              }}
+              whileHover={{ y: -4, scale: 1.008 }}
+              onClick={() => setActiveCertificate(cert)}
+              className="cursor-pointer group"
             >
-              {cat}
-            </button>
-          ))}
-        </div>
+              <GlassCard className="p-6 md:p-8 border-zinc-800/80 group-hover:border-blue-500/40 transition-all duration-400 relative overflow-hidden shadow-xl">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  {/* Left Column: Icon Box / Preview Indicator */}
+                  <div className="flex items-center gap-4 shrink-0">
+                    <div className="w-14 h-14 rounded-xl bg-zinc-950 border border-zinc-800 group-hover:border-blue-500/50 flex items-center justify-center shadow-inner transition-colors shrink-0">
+                      {getBadgeIcon(cert.badgeType)}
+                    </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-1 p-1 bg-zinc-950 rounded-xl border border-zinc-800 font-mono text-xs shrink-0 self-end md:self-auto">
-          <button
-            onClick={() => setViewMode("GRID")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-              viewMode === "GRID"
-                ? "bg-zinc-800 text-white font-bold"
-                : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            <LayoutGrid size={14} />
-            <span>GRID</span>
-          </button>
-          <button
-            onClick={() => setViewMode("TIMELINE")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-              viewMode === "TIMELINE"
-                ? "bg-zinc-800 text-white font-bold"
-                : "text-zinc-500 hover:text-zinc-300"
-            }`}
-          >
-            <GitCommit size={14} />
-            <span>TIMELINE</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Grid View Mode */}
-      {viewMode === "GRID" && (
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          <AnimatePresence>
-            {filteredCertificates.map((cert) => (
-              <motion.div
-                key={cert.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setActiveCertificate(cert)}
-                className="cursor-pointer group"
-              >
-                <GlassCard className="h-full flex flex-col justify-between p-6 border-zinc-800/80 group-hover:border-blue-500/40 transition-all duration-300 relative overflow-hidden">
-                  <div>
-                    {/* Top Type Indicator & Badge Code */}
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800">
-                          {getBadgeIcon(cert.badgeType)}
-                        </div>
                         <span
-                          className={`font-mono text-[11px] px-2.5 py-0.5 rounded border uppercase tracking-wider ${getBadgeStyle(
+                          className={`font-mono text-[10px] px-2.5 py-0.5 rounded border uppercase tracking-wider font-bold ${getBadgeStyle(
                             cert.badgeType
                           )}`}
                         >
                           {cert.badgeType}
                         </span>
+                        <span className="font-mono text-[10px] text-zinc-500 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800">
+                          {cert.badgeCode}
+                        </span>
                       </div>
+                      <span className="font-mono text-xs text-zinc-400 block">{cert.date}</span>
+                    </div>
+                  </div>
 
-                      <span className="font-mono text-[10px] text-zinc-500 bg-zinc-900/80 px-2 py-0.5 rounded border border-zinc-800">
-                        {cert.badgeCode}
-                      </span>
+                  {/* Center Column: Certificate Metadata */}
+                  <div className="flex-1 space-y-2 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-bold text-white text-lg md:text-xl group-hover:text-blue-400 transition-colors">
+                        {cert.title}
+                      </h3>
+                      {cert.placement && (
+                        <span className="px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/80 font-mono text-[10px]">
+                          [{cert.placement}]
+                        </span>
+                      )}
+                      {cert.level && (
+                        <span className="px-2 py-0.5 rounded bg-yellow-950/80 text-yellow-300 border border-yellow-800/80 font-mono text-[10px]">
+                          [{cert.level}]
+                        </span>
+                      )}
+                      {cert.credits && (
+                        <span className="px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-800/80 font-mono text-[10px]">
+                          [{cert.credits} Credits]
+                        </span>
+                      )}
                     </div>
 
-                    {/* Title & Subtitle */}
-                    <h3 className="font-bold text-white text-base md:text-lg mb-1 group-hover:text-blue-400 transition-colors flex items-center justify-between gap-2">
-                      <span>{cert.title}</span>
-                      <ExternalLink
-                        size={14}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400 shrink-0"
-                      />
-                    </h3>
                     {cert.subtitle && (
-                      <p className="text-xs font-mono text-zinc-400 mb-3">{cert.subtitle}</p>
+                      <p className="text-xs font-mono text-blue-400">{cert.subtitle}</p>
                     )}
 
-                    <p className="text-xs text-zinc-300 font-sans leading-relaxed line-clamp-3 mb-6">
+                    <div className="flex items-center gap-2 font-mono text-xs text-zinc-400">
+                      <Building size={14} className="text-blue-400 shrink-0" />
+                      <span className="truncate">{cert.organization}</span>
+                    </div>
+
+                    <p className="text-xs text-zinc-300 font-sans leading-relaxed line-clamp-2">
                       {cert.description}
                     </p>
                   </div>
 
-                  {/* Card Bottom Meta */}
-                  <div>
-                    <div className="space-y-1.5 font-mono text-xs text-zinc-400 border-t border-zinc-800/80 pt-4 mb-4">
-                      <div className="flex items-center gap-2 truncate">
-                        <Building size={13} className="text-blue-400 shrink-0" />
-                        <span className="truncate">{cert.organization}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar size={13} className="text-blue-400 shrink-0" />
-                        <span>{cert.date}</span>
-                      </div>
-                    </div>
-
-                    {/* Action trigger */}
-                    <button className="w-full py-2 bg-zinc-900/90 group-hover:bg-blue-600 text-zinc-300 group-hover:text-white font-mono text-xs font-semibold rounded-lg border border-zinc-800 group-hover:border-blue-500 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+                  {/* Right Column: View Action Trigger */}
+                  <div className="shrink-0 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-zinc-800/80 flex items-center justify-end">
+                    <button className="w-full md:w-auto px-5 py-2.5 bg-zinc-900/90 group-hover:bg-blue-600 text-zinc-300 group-hover:text-white font-mono text-xs font-bold rounded-lg border border-zinc-800 group-hover:border-blue-500 shadow-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
                       <span>VIEW CERTIFICATE</span>
-                      <span>↗</span>
+                      <ExternalLink size={14} className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
                   </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      )}
-
-      {/* Timeline View Mode */}
-      {viewMode === "TIMELINE" && (
-        <div className="space-y-12 pl-4 sm:pl-8 border-l border-zinc-800">
-          {timelineYears.map(({ year, items }) => (
-            <div key={year} className="relative">
-              {/* Timeline Year Marker */}
-              <div className="absolute -left-[25px] sm:-left-[41px] top-0 flex items-center gap-3">
-                <div className="w-4 h-4 rounded-full bg-blue-500 border-4 border-[#050508] shadow-lg shadow-blue-500/50" />
-                <span className="font-mono text-xl font-bold text-blue-400 bg-[#050508] px-2 py-0.5 rounded border border-blue-900/50">
-                  {year}
-                </span>
-              </div>
-
-              <div className="pt-8 space-y-6">
-                {items.map((cert) => (
-                  <motion.div
-                    key={cert.id}
-                    initial={{ opacity: 0, x: -15 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    onClick={() => setActiveCertificate(cert)}
-                    className="cursor-pointer group"
-                  >
-                    <GlassCard className="p-6 border-zinc-800/80 group-hover:border-blue-500/40 transition-all duration-300">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800">
-                            {getBadgeIcon(cert.badgeType)}
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-white text-base group-hover:text-blue-400 transition-colors">
-                              {cert.title}
-                            </h4>
-                            <span className="text-xs font-mono text-zinc-400">{cert.organization}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3 font-mono text-xs">
-                          <span
-                            className={`px-2.5 py-0.5 rounded border uppercase text-[10px] ${getBadgeStyle(
-                              cert.badgeType
-                            )}`}
-                          >
-                            {cert.badgeType}
-                          </span>
-                          <span className="text-zinc-400">{cert.date}</span>
-                        </div>
-                      </div>
-
-                      <p className="text-xs text-zinc-300 font-sans leading-relaxed mb-4">
-                        {cert.description}
-                      </p>
-
-                      <div className="flex justify-end">
-                        <span className="font-mono text-xs text-blue-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>VIEW CERTIFICATE</span>
-                          <span>→</span>
-                        </span>
-                      </div>
-                    </GlassCard>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </GlassCard>
+            </motion.div>
           ))}
-        </div>
-      )}
+        </AnimatePresence>
+      </div>
 
       {/* Certificate Viewer Modal */}
       <CertificateViewer
