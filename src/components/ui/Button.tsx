@@ -11,6 +11,7 @@ interface ButtonProps {
   className?: string;
   as?: "button" | "a";
   href?: string;
+  download?: string;
   target?: string;
   rel?: string;
   onClick?: (e: React.MouseEvent) => void;
@@ -25,6 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   as = "button",
   href,
+  download,
   target,
   rel,
   onClick,
@@ -56,6 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <a
         href={href}
+        download={download}
         target={target}
         rel={rel}
         className={combinedClasses}

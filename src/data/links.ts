@@ -10,6 +10,6 @@ export const SOCIAL_LINKS: SocialLinks = {
   github: "https://github.com/AkshaySArun",
   linkedin: "https://www.linkedin.com/in/akshaysarun",
   email: "mailto:akshaysarun30@gmail.com",
-  resume: "/resume.pdf", // Placeholder or local resume link
+  resume: "/resume/Akshay_S_Resume.pdf",
   githubUsername: "AkshaySArun"
 };

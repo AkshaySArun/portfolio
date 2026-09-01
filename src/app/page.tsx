@@ -8,6 +8,7 @@ import { AILab } from "@/components/engineering/AILab";
 import { ExperienceTimeline } from "@/components/journey/ExperienceTimeline";
 import { EducationArchive } from "@/components/journey/EducationArchive";
 import { CertificateVault } from "@/components/journey/CertificateVault";
+import { ResumeSection } from "@/components/resume/ResumeSection";
 import { GithubActivity } from "@/components/github/GithubActivity";
 import { ContactTerminal } from "@/components/contact/ContactTerminal";
 import { Footer } from "@/components/layout/Footer";
@@ -49,6 +50,9 @@ export default function Home() {
         <EducationArchive />
         <CertificateVault />
       </section>
+
+      {/* Engineering Resume Section */}
+      <ResumeSection />
 
       {/* Live GitHub Engineering Activity */}
       <GithubActivity />
