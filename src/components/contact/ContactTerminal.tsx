@@ -7,10 +7,12 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { SOCIAL_LINKS } from "@/data/links";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
-import { Mail, FileText, Check, Copy } from "lucide-react";
+import { Mail, FileText, Check, Copy, Download, ExternalLink } from "lucide-react";
+import { useDocumentViewer } from "@/components/ui/DocumentViewerContext";
 
 export const ContactTerminal: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const { openResume } = useDocumentViewer();
 
   const copyEmail = () => {
     navigator.clipboard.writeText("akshaysarun30@gmail.com");
@@ -123,26 +125,32 @@ export const ContactTerminal: React.FC = () => {
                   </span>
                 </a>
 
-                {/* Resume PDF Download Channel */}
-                <a
-                  href={SOCIAL_LINKS.resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-between hover:border-blue-500/50 transition-colors group"
-                >
-                  <div className="flex items-center gap-3">
-                    <FileText size={18} className="text-cyan-400" />
+                {/* Resume PDF Channel (View in DocumentViewer + Direct Download) */}
+                <div className="p-4 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-between hover:border-blue-500/50 transition-colors">
+                  <button
+                    onClick={() => openResume()}
+                    className="flex items-center gap-3 text-left flex-1 cursor-pointer group"
+                    aria-label="View Akshay S resume"
+                  >
+                    <FileText size={18} className="text-cyan-400 shrink-0" />
                     <div>
                       <span className="text-[10px] text-zinc-500 block">[RESUME]</span>
-                      <span className="text-white font-semibold text-xs md:text-sm">
-                        DOWNLOAD RESUME PDF
+                      <span className="text-white group-hover:text-cyan-400 transition-colors font-semibold text-xs md:text-sm flex items-center gap-1.5">
+                        <span>VIEW RESUME (PDF)</span>
+                        <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       </span>
                     </div>
-                  </div>
-                  <span className="text-zinc-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all">
-                    ↓
-                  </span>
-                </a>
+                  </button>
+                  <a
+                    href={SOCIAL_LINKS.resume}
+                    download="Akshay_S_Resume.pdf"
+                    className="p-2 text-zinc-400 hover:text-cyan-400 transition-colors cursor-pointer rounded-md bg-zinc-900 border border-zinc-800 hover:border-cyan-500/40"
+                    title="Direct Download Resume PDF"
+                    aria-label="Download Akshay S resume as PDF"
+                  >
+                    <Download size={15} />
+                  </a>
+                </div>
               </div>
             </div>
 

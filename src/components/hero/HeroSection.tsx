@@ -11,7 +11,11 @@ import { SOCIAL_LINKS } from "@/data/links";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { ArrowRight, Mail, FileText } from "lucide-react";
 
+import { useDocumentViewer } from "@/components/ui/DocumentViewerContext";
+
 export const HeroSection: React.FC = () => {
+  const { openResume } = useDocumentViewer();
+
   return (
     <section
       id="hero"
@@ -127,15 +131,14 @@ export const HeroSection: React.FC = () => {
             <span>EMAIL</span>
           </a>
           <span className="text-zinc-700">•</span>
-          <a
-            href={SOCIAL_LINKS.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
+          <button
+            onClick={() => openResume()}
+            className="flex items-center gap-1.5 hover:text-blue-400 transition-colors cursor-pointer"
+            aria-label="View Akshay S resume"
           >
             <FileText size={14} />
-            <span>RESUME</span>
-          </a>
+            <span>VIEW RESUME</span>
+          </button>
         </motion.div>
       </div>
 

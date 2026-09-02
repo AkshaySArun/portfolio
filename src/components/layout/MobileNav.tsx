@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { SOCIAL_LINKS } from "@/data/links";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { Mail, FileText } from "lucide-react";
+import { useDocumentViewer } from "@/components/ui/DocumentViewerContext";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   onClose,
   activeSection,
 }) => {
+  const { openResume } = useDocumentViewer();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -84,15 +86,16 @@ export const MobileNav: React.FC<MobileNavProps> = ({
               >
                 <Mail size={20} />
               </a>
-              <a
-                href={SOCIAL_LINKS.resume}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-400 transition-colors p-2"
-                aria-label="Resume"
+              <button
+                onClick={() => {
+                  onClose();
+                  openResume();
+                }}
+                className="hover:text-blue-400 transition-colors p-2 cursor-pointer"
+                aria-label="View Akshay S resume"
               >
                 <FileText size={20} />
-              </a>
+              </button>
             </div>
           </div>
         </motion.div>

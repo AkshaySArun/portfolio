@@ -1,12 +1,22 @@
-"use client";
+﻿"use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Certificate } from "@/data/certificates";
-import { X, ExternalLink, Download, FileText, Calendar, Building, Award, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Certificate, DocumentItem } from "@/data/certificates";
+import {
+  X,
+  ExternalLink,
+  Download,
+  FileText,
+  Calendar,
+  Building,
+  Award,
+  ShieldCheck,
+  FileCode,
+} from "lucide-react";
 
 interface CertificateViewerProps {
-  certificate: Certificate | null;
+  certificate: DocumentItem | null;
   onClose: () => void;
 }
 
@@ -14,6 +24,8 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
   certificate,
   onClose,
 }) => {
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -22,6 +34,7 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
     };
 
     if (certificate) {
+      setIframeLoaded(false);
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     }
@@ -34,6 +47,8 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
 
   if (!certificate) return null;
 
+  const isResume = certificate.id === "akshay-s-resume" || certificate.badgeCode === "RESUME-2026";
+
   return (
     <AnimatePresence>
       <div
@@ -41,53 +56,74 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
         onClick={onClose}
         role="dialog"
         aria-modal="true"
-        aria-label={`Certificate viewer for ${certificate.title}`}
+        aria-label={`Document viewer for ${certificate.title}`}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 15 }}
+          initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 15 }}
-          transition={{ duration: 0.25 }}
+          exit={{ opacity: 0, scale: 0.94, y: 15 }}
+          transition={{ duration: 0.25, ease: [0.65, 0, 0.35, 1] }}
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-5xl max-h-[92vh] bg-[#08080d] border border-blue-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col"
         >
           {/* Header Bar */}
           <div className="bg-[#0c0c14] px-6 py-4 border-b border-zinc-800 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3 font-mono text-xs text-blue-400">
-              <Award size={16} />
-              <span className="font-bold uppercase tracking-wider">// VERIFIED CREDENTIAL DOCUMENT</span>
-              <span className="text-zinc-600 hidden sm:inline">•</span>
-              <span className="text-zinc-400 uppercase hidden sm:inline">{certificate.category}</span>
+              {isResume ? <FileText size={16} /> : <Award size={16} />}
+              <span className="font-bold uppercase tracking-wider">
+                {isResume ? "// OFFICIAL DOCUMENT • RESUME & CV" : "// VERIFIED CREDENTIAL DOCUMENT"}
+              </span>
+              {!isResume && certificate.category && (
+                <>
+                  <span className="text-zinc-600 hidden sm:inline">•</span>
+                  <span className="text-zinc-400 uppercase hidden sm:inline">{certificate.category}</span>
+                </>
+              )}
             </div>
 
             <button
               onClick={onClose}
               className="p-2 text-zinc-400 hover:text-white rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors flex items-center gap-1.5 font-mono text-xs cursor-pointer"
-              aria-label="Close certificate viewer"
+              aria-label="Close document viewer"
             >
               <X size={16} />
               <span className="hidden sm:inline">CLOSE [ESC]</span>
             </button>
           </div>
 
-          {/* Certificate Media Body */}
+          {/* Document Media Body */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col items-center justify-center bg-[#040407] min-h-[380px]">
             {certificate.assetType === "pdf" ? (
               <div className="w-full h-[65vh] flex flex-col items-center justify-center rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden relative">
+                {!iframeLoaded && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-zinc-500 font-mono text-xs pointer-events-none">
+                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    <span>LOADING DOCUMENT...</span>
+                  </div>
+                )}
                 <iframe
                   src={`${certificate.asset}#toolbar=0&navpanes=0`}
-                  className="w-full h-full border-0"
+                  className="w-full h-full border-0 relative z-10"
                   title={certificate.title}
+                  onLoad={() => setIframeLoaded(true)}
                 />
-                <div className="absolute bottom-4 right-4 z-10 flex gap-2">
+                <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+                  <a
+                    href={certificate.asset}
+                    download={isResume ? "Akshay_S_Resume.pdf" : undefined}
+                    className="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold rounded-lg shadow-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Download size={13} />
+                    <span>DOWNLOAD PDF</span>
+                  </a>
                   <a
                     href={certificate.asset}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold rounded-lg shadow-lg flex items-center gap-2 transition-colors"
+                    className="px-3.5 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono text-xs font-bold rounded-lg shadow-lg flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <ExternalLink size={14} />
-                    <span>OPEN ORIGINAL PDF ↗</span>
+                    <ExternalLink size={13} />
+                    <span>OPEN ORIGINAL ↗</span>
                   </a>
                 </div>
               </div>
@@ -95,7 +131,7 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
               <div className="relative max-w-full max-h-[68vh] flex items-center justify-center rounded-xl overflow-hidden bg-black border border-zinc-800/80 p-2">
                 <img
                   src={certificate.asset}
-                  alt={`Certificate for ${certificate.title} — ${certificate.organization}`}
+                  alt={`Document: ${certificate.title}`}
                   className="max-h-[64vh] max-w-full object-contain rounded shadow-2xl transition-transform duration-300 hover:scale-[1.01]"
                   loading="lazy"
                 />
@@ -132,16 +168,24 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
                 )}
               </div>
 
+              {certificate.subtitle && (
+                <p className="text-blue-300 text-xs font-semibold">{certificate.subtitle}</p>
+              )}
+
               <div className="flex flex-wrap items-center gap-3 text-zinc-400 text-xs">
-                <span className="flex items-center gap-1.5">
-                  <Building size={13} className="text-blue-400" />
-                  <span>{certificate.organization}</span>
-                </span>
-                <span className="text-zinc-700">•</span>
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={13} className="text-blue-400" />
-                  <span>{certificate.date}</span>
-                </span>
+                {certificate.organization && (
+                  <span className="flex items-center gap-1.5">
+                    <Building size={13} className="text-blue-400" />
+                    <span>{certificate.organization}</span>
+                  </span>
+                )}
+                {certificate.organization && certificate.date && <span className="text-zinc-700">•</span>}
+                {certificate.date && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar size={13} className="text-blue-400" />
+                    <span>{certificate.date}</span>
+                  </span>
+                )}
               </div>
             </div>
 
@@ -162,11 +206,20 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
 
               <a
                 href={certificate.asset}
+                download={isResume ? "Akshay_S_Resume.pdf" : undefined}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white border border-blue-500/50 rounded-lg transition-colors font-bold text-xs shadow-lg shadow-blue-600/20"
+              >
+                <Download size={14} />
+                <span>DOWNLOAD {certificate.assetType === "pdf" ? "PDF" : "FILE"}</span>
+              </a>
+
+              <a
+                href={certificate.asset}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-blue-400 hover:text-blue-300 border border-zinc-800 rounded-lg transition-colors font-bold text-xs"
               >
-                <span>OPEN ORIGINAL FILE</span>
+                <span>OPEN ORIGINAL</span>
                 <ExternalLink size={14} />
               </a>
             </div>
@@ -176,3 +229,6 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
     </AnimatePresence>
   );
 };
+
+// Aliased export for generic document usage
+export const DocumentViewer = CertificateViewer;

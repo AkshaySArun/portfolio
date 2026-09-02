@@ -35,9 +35,19 @@ export const ExperienceTimeline: React.FC = () => {
 
   return (
     <div className="mb-20">
-      <div className="flex items-center gap-3 font-mono text-xs text-blue-400 uppercase tracking-widest mb-8">
-        <Briefcase size={16} />
-        <span>01 — PROFESSIONAL EXPERIENCE & INTERNSHIP</span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-3 font-mono text-xs text-blue-400 uppercase tracking-widest">
+          <Briefcase size={16} />
+          <span>01 — PROFESSIONAL EXPERIENCE & INTERNSHIP</span>
+        </div>
+
+        <a
+          href="#credentials"
+          className="group inline-flex items-center gap-1.5 font-mono text-xs text-zinc-400 hover:text-blue-400 transition-colors bg-zinc-900/80 hover:bg-blue-950/40 border border-zinc-800 hover:border-blue-500/50 px-3 py-1.5 rounded-lg w-fit"
+        >
+          <span>EXPLORE CREDENTIALS</span>
+          <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+        </a>
       </div>
 
       <div className="relative border-l border-zinc-800 ml-4 pl-8 space-y-12">

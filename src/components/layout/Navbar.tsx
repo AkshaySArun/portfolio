@@ -11,9 +11,7 @@ export const NAV_ITEMS = [
   { name: "ABOUT", href: "#about" },
   { name: "PROJECTS", href: "#projects" },
   { name: "ENGINEERING", href: "#engineering" },
-  { name: "AI LAB", href: "#ailab" },
   { name: "JOURNEY", href: "#journey" },
-  { name: "CERTIFICATIONS", href: "#vault" },
   { name: "CONTACT", href: "#contact" },
 ];
 

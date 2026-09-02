@@ -16,10 +16,12 @@ import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SectionTransition } from "@/components/ui/SectionTransition";
 import { SectionProgress } from "@/components/ui/SectionProgress";
+import { DocumentViewerProvider } from "@/components/ui/DocumentViewerContext";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#050508] text-[#f0f0f5] selection:bg-blue-600/30 selection:text-blue-200">
+    <DocumentViewerProvider>
+      <main className="min-h-screen bg-[#050508] text-[#f0f0f5] selection:bg-blue-600/30 selection:text-blue-200">
       <LoadingScreen />
       <CustomCursor />
       <Navbar />
@@ -78,5 +80,6 @@ export default function Home() {
       {/* Footer */}
       <Footer />
     </main>
+    </DocumentViewerProvider>
   );
 }

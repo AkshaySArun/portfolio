@@ -39,6 +39,24 @@ export interface Certificate {
   badgeCode: string;
 }
 
+export type DocumentItem = Certificate;
+
+export const RESUME_DOCUMENT: Certificate = {
+  id: "akshay-s-resume",
+  title: "Akshay S — Engineering Resume",
+  subtitle: "AI/ML Engineer & Full-Stack Developer",
+  category: "TECHNICAL PROGRAMMES",
+  badgeType: "CERTIFICATION",
+  organization: "Akshay S // AI Engineering Lab",
+  issuer: "Akshay S",
+  date: "Latest Edition (2026)",
+  year: 2026,
+  description: "Official Curriculum Vitae detailing engineering experience in AI/ML systems, Python & Full-Stack architecture, academic qualifications from VTU, technical skills, and software engineering projects.",
+  asset: "/resume/Akshay_S_Resume.pdf",
+  assetType: "pdf",
+  badgeCode: "RESUME-2026"
+};
+
 export const CERTIFICATES_DATA: Certificate[] = [
   // --- COURSES ---
   {
