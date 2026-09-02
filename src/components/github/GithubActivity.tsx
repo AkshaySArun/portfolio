@@ -5,29 +5,21 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
-import { fetchGithubProfile, fetchGithubRepos, GithubProfile, GithubRepo } from "@/lib/github";
+import { fetchGithubRepos, GithubRepo } from "@/lib/github";
 import { SOCIAL_LINKS } from "@/data/links";
 import { GithubIcon } from "@/components/ui/Icons";
 import { Star, GitFork, ExternalLink } from "lucide-react";
 
 export const GithubActivity: React.FC = () => {
-  const [profile, setProfile] = useState<GithubProfile | null>(null);
   const [repos, setRepos] = useState<GithubRepo[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadGithubData() {
       try {
-        const [profData, repoData] = await Promise.all([
-          fetchGithubProfile(SOCIAL_LINKS.githubUsername),
-          fetchGithubRepos(SOCIAL_LINKS.githubUsername),
-        ]);
-        setProfile(profData);
+        const repoData = await fetchGithubRepos(SOCIAL_LINKS.githubUsername);
         setRepos(repoData);
       } catch (err) {
         console.error("Failed to load GitHub data", err);
-      } finally {
-        setLoading(false);
       }
     }
 

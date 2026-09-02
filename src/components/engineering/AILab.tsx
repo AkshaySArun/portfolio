@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { AI_LAB_DATA } from "@/data/skills";
-import { Sparkles, Brain, Compass, ArrowRight } from "lucide-react";
+import { Sparkles, Brain, Compass } from "lucide-react";
 
 export const AILab: React.FC = () => {
   return (

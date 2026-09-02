@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/data/projects";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/Icons";
-import { X, ExternalLink, Cpu, Layers, CheckCircle2, ArrowRight } from "lucide-react";
+import { X, ExternalLink, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface ProjectCaseStudyProps {
   project: Project | null;
@@ -39,7 +39,7 @@ export const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
 
           {/* Header metadata */}
           <div className="flex items-center gap-3 font-mono text-xs text-blue-400 uppercase tracking-widest mb-3">
-            <span>// CASE STUDY</span>
+            <span>{"// CASE STUDY"}</span>
             <span className="text-zinc-600">•</span>
             <span>{project.category}</span>
             <span className="text-zinc-600">•</span>
@@ -86,7 +86,7 @@ export const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
           {project.architectureFlow && (
             <div className="mb-10 p-6 rounded-xl bg-zinc-950/80 border border-zinc-800/80">
               <span className="text-xs font-mono text-blue-400 font-bold block mb-4">
-                // SYSTEM ARCHITECTURE VISUAL FLOW
+                {"// SYSTEM ARCHITECTURE VISUAL FLOW"}
               </span>
               <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
                 {project.architectureFlow.map((step, idx) => (

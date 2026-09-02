@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   CERTIFICATES_DATA,
@@ -27,7 +28,6 @@ import {
   Activity,
   Award,
   Eye,
-  Layers,
 } from "lucide-react";
 
 // ─── Semantic Constellation Graph Layout (Coordinates & Visual Connections) ──
@@ -294,7 +294,7 @@ export const CertificateVault: React.FC = () => {
             <div className="flex items-center gap-2">
               <Activity size={14} className="text-emerald-400" />
               <span className="text-zinc-200 font-bold">CREDENTIAL_NETWORK</span>
-              <span className="text-zinc-600">// 2022—2026</span>
+              <span className="text-zinc-600">{"// 2022—2026"}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-zinc-500">STATUS:</span>
@@ -597,7 +597,7 @@ export const CertificateVault: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
                     <span className="font-mono text-[10px] text-blue-400 font-bold uppercase tracking-wider">
-                      // VERIFIED CREDENTIAL RECORD
+                      {"// VERIFIED CREDENTIAL RECORD"}
                     </span>
                   </div>
 
@@ -648,10 +648,12 @@ export const CertificateVault: React.FC = () => {
                     >
                       <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-blue-600/20 transition-colors" />
                       {activeDetailCert.assetType === "image" ? (
-                        <img
+                        <Image
                           src={activeDetailCert.asset}
                           alt="Thumbnail preview"
-                          className="w-full h-full object-cover rounded opacity-85 group-hover:opacity-100 transition-opacity"
+                          fill
+                          className="object-cover rounded opacity-85 group-hover:opacity-100 transition-opacity"
+                          sizes="64px"
                         />
                       ) : (
                         <div className="flex flex-col items-center justify-center gap-1 text-blue-400">

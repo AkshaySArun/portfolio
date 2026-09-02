@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Certificate, DocumentItem } from "@/data/certificates";
+import { DocumentItem } from "@/data/certificates";
 import {
   X,
   ExternalLink,
@@ -12,7 +13,6 @@ import {
   Building,
   Award,
   ShieldCheck,
-  FileCode,
 } from "lucide-react";
 
 interface CertificateViewerProps {
@@ -24,20 +24,21 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
   certificate,
   onClose,
 }) => {
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  // Track which certificate ID has finished loading in the iframe.
+  // Derived state: iframeLoaded is true only if the currently loaded ID matches the active certificate ID.
+  const [loadedCertId, setLoadedCertId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!certificate) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
 
-    if (certificate) {
-      setIframeLoaded(false);
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.style.overflow = "unset";
@@ -48,6 +49,7 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
   if (!certificate) return null;
 
   const isResume = certificate.id === "akshay-s-resume" || certificate.badgeCode === "RESUME-2026";
+  const iframeLoaded = loadedCertId === certificate.id;
 
   return (
     <AnimatePresence>
@@ -102,10 +104,11 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
                   </div>
                 )}
                 <iframe
+                  key={certificate.id}
                   src={`${certificate.asset}#toolbar=0&navpanes=0`}
                   className="w-full h-full border-0 relative z-10"
                   title={certificate.title}
-                  onLoad={() => setIframeLoaded(true)}
+                  onLoad={() => setLoadedCertId(certificate.id)}
                 />
                 <div className="absolute bottom-4 right-4 z-20 flex gap-2">
                   <a
@@ -129,9 +132,11 @@ export const CertificateViewer: React.FC<CertificateViewerProps> = ({
               </div>
             ) : (
               <div className="relative max-w-full max-h-[68vh] flex items-center justify-center rounded-xl overflow-hidden bg-black border border-zinc-800/80 p-2">
-                <img
+                <Image
                   src={certificate.asset}
                   alt={`Document: ${certificate.title}`}
+                  width={900}
+                  height={640}
                   className="max-h-[64vh] max-w-full object-contain rounded shadow-2xl transition-transform duration-300 hover:scale-[1.01]"
                   loading="lazy"
                 />

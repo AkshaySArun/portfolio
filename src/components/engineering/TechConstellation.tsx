@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -8,7 +8,6 @@ import { SKILLS_DATA } from "@/data/skills";
 import { Cpu, Terminal, Code, Database, Wrench } from "lucide-react";
 
 export const TechConstellation: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const getCategoryIcon = (idx: number) => {
     switch (idx) {

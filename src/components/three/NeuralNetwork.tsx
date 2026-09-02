@@ -4,57 +4,61 @@ import React, { useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+// ── Stable node data generated once at module load (outside component render) ──
+// Generating outside the component ensures this is never re-created on re-renders
+// and avoids the react-hooks/purity rule that flags Math.random() inside renders.
+function generateNeuralNetworkData() {
+  const numNodes = 45;
+  const positions: THREE.Vector3[] = [];
+  const radius = 3.2;
+
+  for (let i = 0; i < numNodes; i++) {
+    const u = Math.random();
+    const v = Math.random();
+    const theta = u * 2.0 * Math.PI;
+    const phi = Math.acos(2.0 * v - 1.0);
+    const r = Math.cbrt(Math.random()) * radius;
+
+    const x = r * Math.sin(phi) * Math.cos(theta);
+    const y = r * Math.sin(phi) * Math.sin(theta);
+    const z = r * Math.cos(phi);
+
+    positions.push(new THREE.Vector3(x, y, z));
+  }
+
+  const linePositions: number[] = [];
+  const maxDistance = 2.2;
+
+  for (let i = 0; i < numNodes; i++) {
+    for (let j = i + 1; j < numNodes; j++) {
+      const dist = positions[i].distanceTo(positions[j]);
+      if (dist < maxDistance) {
+        linePositions.push(
+          positions[i].x, positions[i].y, positions[i].z,
+          positions[j].x, positions[j].y, positions[j].z
+        );
+      }
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(new Float32Array(linePositions), 3)
+  );
+
+  return { nodePositions: positions, lineGeometry: geometry };
+}
+
+// Module-level stable data — generated once, never changes
+const NEURAL_NETWORK_DATA = generateNeuralNetworkData();
+
 export const NeuralNetwork: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
 
-  // Generate neural network nodes and connections
-  const { nodePositions, lineGeometry } = useMemo(() => {
-    const numNodes = 45;
-    const positions: THREE.Vector3[] = [];
-    const radius = 3.2;
-
-    for (let i = 0; i < numNodes; i++) {
-      const u = Math.random();
-      const v = Math.random();
-      const theta = u * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * v - 1.0);
-      const r = Math.cbrt(Math.random()) * radius;
-
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
-
-      positions.push(new THREE.Vector3(x, y, z));
-    }
-
-    const linePositions: number[] = [];
-    const maxDistance = 2.2;
-
-    for (let i = 0; i < numNodes; i++) {
-      for (let j = i + 1; j < numNodes; j++) {
-        const dist = positions[i].distanceTo(positions[j]);
-        if (dist < maxDistance) {
-          linePositions.push(
-            positions[i].x, positions[i].y, positions[i].z,
-            positions[j].x, positions[j].y, positions[j].z
-          );
-        }
-      }
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      ariaFloatAttribute(new Float32Array(linePositions), 3)
-    );
-
-    return { nodePositions: positions, lineGeometry: geometry };
-  }, []);
-
-  function ariaFloatAttribute(array: Float32Array, itemSize: number) {
-    return new THREE.BufferAttribute(array, itemSize);
-  }
+  // Destructure from stable module-level constant (no Math.random in render)
+  const { nodePositions, lineGeometry } = useMemo(() => NEURAL_NETWORK_DATA, []);
 
   useFrame((state) => {
     if (groupRef.current) {

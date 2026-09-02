@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ACHIEVEMENTS_DATA, AchievementItem } from "@/data/achievements";
-import { Trophy, ShieldCheck, Star } from "lucide-react";
+import { Trophy, ShieldCheck } from "lucide-react";
 
 export const AchievementBadges: React.FC = () => {
   const [selectedBadge, setSelectedBadge] = useState<AchievementItem | null>(null);

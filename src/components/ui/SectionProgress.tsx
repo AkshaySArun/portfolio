@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+
 import { NAV_ITEMS } from "@/components/layout/Navbar";
 
 export const SectionProgress: React.FC = () => {

@@ -62,7 +62,7 @@ export const Navbar: React.FC = () => {
           >
             <span className="w-2.5 h-2.5 bg-blue-500 rounded-sm group-hover:scale-125 transition-transform duration-300" />
             <span className="tracking-widest">AKSHAY S</span>
-            <span className="text-zinc-600 text-xs hidden sm:inline">// LAB</span>
+            <span className="text-zinc-600 text-xs hidden sm:inline">{"// LAB"}</span>
           </a>
 
           {/* Desktop Nav Items */}

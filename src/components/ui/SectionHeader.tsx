@@ -31,7 +31,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           centered ? "justify-center" : ""
         }`}
       >
-        <span className="text-blue-500 font-bold">// {number}</span>
+        <span className="text-blue-500 font-bold">{`// ${number}`}</span>
         <span className="text-zinc-600">—</span>
         <span>{category}</span>
       </div>

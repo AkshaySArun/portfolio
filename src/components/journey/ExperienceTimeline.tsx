@@ -98,7 +98,7 @@ export const ExperienceTimeline: React.FC = () => {
               {exp.workflow && (
                 <div className="mb-6 p-4 rounded-xl bg-zinc-950/90 border border-zinc-800/80">
                   <span className="text-[10px] font-mono text-blue-400 font-bold block mb-2 uppercase tracking-wider">
-                    // INTERNSHIP TECHNICAL ARCHITECTURE WORKFLOW
+                    {"// INTERNSHIP TECHNICAL ARCHITECTURE WORKFLOW"}
                   </span>
                   <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-zinc-300">
                     {exp.workflow.map((step, sIdx) => (

@@ -43,7 +43,7 @@ export const ContactTerminal: React.FC = () => {
               <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
               <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-              <span className="ml-2 text-zinc-500">// bash — initialize_connection.sh</span>
+              <span className="ml-2 text-zinc-500">{"// bash — initialize_connection.sh"}</span>
             </div>
 
             <div className="flex items-center gap-2 text-emerald-400">

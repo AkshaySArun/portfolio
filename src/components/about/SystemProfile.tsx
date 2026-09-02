@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PROFILE_DATA } from "@/data/profile";
-import { MapPin, GraduationCap, Cpu, Code2, Terminal } from "lucide-react";
+import { MapPin, GraduationCap, Code2, Terminal } from "lucide-react";
 
 export const SystemProfile: React.FC = () => {
   return (
@@ -118,7 +118,7 @@ export const SystemProfile: React.FC = () => {
               {PROFILE_DATA.summary}
             </p>
             <div className="p-4 rounded-lg bg-zinc-950/70 border border-zinc-800/80 font-mono text-xs text-zinc-400 leading-relaxed">
-              <span className="text-blue-400 font-bold block mb-1">// CORE COMMITMENT</span>
+              <span className="text-blue-400 font-bold block mb-1">{"// CORE COMMITMENT"}</span>
               Building resilient backend architectures, intuitive frontend interfaces, and exploring practical machine learning applications with strong theoretical data structures & algorithms foundation.
             </div>
           </GlassCard>
